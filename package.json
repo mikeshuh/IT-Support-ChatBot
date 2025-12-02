@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/google": "^2.0.44",
+    "@google/generative-ai": "^0.24.1",
     "@langchain/community": "^1.0.6",
     "@langchain/core": "^1.1.1",
     "@langchain/textsplitters": "^1.0.1",

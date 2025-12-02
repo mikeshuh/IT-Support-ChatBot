@@ -1,11 +1,47 @@
 "use client";
 
-import { useChat, Message } from "ai/react";
-import { ChatMessage } from "@/components/ui/chat-message";
+import { useState } from "react";
+import { ChatMessage, Message } from "@/components/ui/chat-message";
 import { ChatInput } from "@/components/ui/chat-input";
 
 export default function Home() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading, append } = useChat();
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSend = async (content: string) => {
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: "user",
+      content,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [...messages, userMessage],
+        }),
+      });
+
+      const text = await response.text();
+
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: text,
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-4 md:p-24">
@@ -27,7 +63,7 @@ export default function Home() {
           ))}
         </div>
         <div className="p-4 border-t bg-muted/50">
-          <ChatInput onSubmit={(value) => append({ role: 'user', content: value })} isLoading={isLoading} />
+          <ChatInput onSubmit={handleSend} isLoading={isLoading} />
         </div>
       </div>
     </main>
