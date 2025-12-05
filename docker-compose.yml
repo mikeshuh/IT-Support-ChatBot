@@ -14,6 +14,21 @@ services:
     depends_on:
       - db
 
+  mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    restart: always
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/it_support
+      - GOOGLE_GENERATIVE_AI_API_KEY=${GOOGLE_GENERATIVE_AI_API_KEY}
+    depends_on:
+      - db
+    # MCP server uses stdio, but we keep it running for demo visibility
+    # In production, MCP clients would spawn this process directly
+    stdin_open: true
+    tty: true
+
   db:
     image: pgvector/pgvector:pg16
     restart: always

@@ -1,13 +1,18 @@
-import { Pool } from "pg";
+import { pool } from "./db";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Initialize Postgres connection pool
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL || "postgresql://postgres:password@localhost:5432/it_support",
-});
-
-// Initialize Google Generative AI
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!);
+// Lazy initialization to ensure env vars are loaded
+let genAI: GoogleGenerativeAI | null = null;
+function getGenAI() {
+    if (!genAI) {
+        const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+        if (!apiKey) {
+            throw new Error("GOOGLE_GENERATIVE_AI_API_KEY environment variable is not set");
+        }
+        genAI = new GoogleGenerativeAI(apiKey);
+    }
+    return genAI;
+}
 
 export class PGVectorStore {
     private tableName: string;
@@ -46,7 +51,7 @@ export class PGVectorStore {
     async addDocuments(documents: { pageContent: string; metadata: any }[]) {
         const client = await pool.connect();
         try {
-            const model = genAI.getGenerativeModel({ model: "text-embedding-004" });
+            const model = getGenAI().getGenerativeModel({ model: "text-embedding-004" });
 
             for (const doc of documents) {
                 const result = await model.embedContent(doc.pageContent);
@@ -66,7 +71,7 @@ export class PGVectorStore {
     async similaritySearch(query: string, k: number = 3) {
         const client = await pool.connect();
         try {
-            const model = genAI.getGenerativeModel({ model: "text-embedding-004" });
+            const model = getGenAI().getGenerativeModel({ model: "text-embedding-004" });
             const result = await model.embedContent(query);
             const embedding = result.embedding.values;
             const embeddingString = `[${embedding.join(",")}]`;

@@ -1,52 +1,72 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { google } from "@ai-sdk/google";
+import { streamText } from "ai";
 import { classifyRequest } from "@/agents/intake/agent";
-import { getAnswer } from "@/agents/knowledge/agent";
+import { answerWithKnowledge } from "@/agents/knowledge/agent";
 import { executeWorkflow } from "@/agents/workflow/agent";
 import { escalateToHuman } from "@/agents/escalation/agent";
+import { metrics, withLatencyTracking } from "@/lib/metrics";
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY!);
+export const maxDuration = 60;
 
 export async function POST(req: Request) {
-    try {
-        const { messages } = await req.json();
-        const lastMessage = messages[messages.length - 1];
-        const query = lastMessage.content;
+    const requestStart = performance.now();
+    const { messages } = await req.json();
+    const lastMessage = messages[messages.length - 1].content;
 
-        const intent = await classifyRequest(query);
+    // Step 1: Classify intent with latency tracking
+    const intent = await withLatencyTracking("intake", () =>
+        classifyRequest(lastMessage)
+    );
+    metrics.recordRouting(intent, null, performance.now() - requestStart);
 
-        let responseText = "";
+    // Step 2: Route to appropriate agent
+    let agentResult = "";
+    let agentName = "";
 
-        if (intent === "knowledge") {
-            responseText = await getAnswer(query);
-        } else if (intent === "workflow") {
-            responseText = await executeWorkflow(query);
-        } else {
-            responseText = await escalateToHuman(query);
-        }
-
-        // Use Google Gemini to generate a natural response based on the agent's output
-        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-
-        const prompt = `You are a helpful IT Support Assistant. 
-You have just received information from an internal agent regarding the user's query.
-Agent Output: "${responseText}"
-
-Your goal is to communicate this information to the user in a friendly and professional manner.
-If the agent output is an answer, provide it clearly.
-If it's a workflow confirmation, confirm it.
-If it's an escalation, reassure the user.
-
-User query: ${query}`;
-
-        const result = await model.generateContent(prompt);
-        const assistantResponse = result.response.text();
-
-        return new Response(assistantResponse);
-    } catch (error) {
-        console.error("API Error:", error);
-        return new Response(
-            JSON.stringify({ error: "An error occurred", details: String(error) }),
-            { status: 500, headers: { "Content-Type": "application/json" } }
+    if (intent === "knowledge") {
+        agentName = "knowledge";
+        agentResult = await withLatencyTracking("knowledge", () =>
+            answerWithKnowledge(lastMessage)
         );
+    } else if (intent === "workflow") {
+        agentName = "workflow";
+        const workflowResult = await withLatencyTracking("workflow", () =>
+            executeWorkflow(lastMessage)
+        );
+        agentResult = workflowResult.message;
+
+        // Track ticket creation if applicable
+        if (workflowResult.action === "create_ticket") {
+            metrics.recordTicketCreation(
+                workflowResult.success,
+                workflowResult.data && "id" in workflowResult.data ? workflowResult.data.id : undefined
+            );
+        }
+    } else {
+        agentName = "escalation";
+        const escalationResult = await withLatencyTracking("escalation", () =>
+            escalateToHuman(lastMessage)
+        );
+        agentResult = escalationResult.message;
+        metrics.recordTicketCreation(true, escalationResult.ticketId);
     }
+
+    // Step 3: Generate final response
+    const result = streamText({
+        model: google("gemini-2.5-flash"),
+        prompt: `You are a helpful IT Support Assistant. 
+        You have just received information from the ${agentName} agent regarding the user's query.
+        
+        User Query: "${lastMessage}"
+        Agent Output: "${agentResult}"
+        
+        Goal: Communicate this information to the user in a friendly and professional manner.
+        If the agent output is an answer, provide it clearly.
+        If it's a ticket confirmation, confirm it warmly.
+        If the agent output asks for clarification, ask the user politely.
+        
+        Keep your response concise and helpful. Don't add information that wasn't in the agent output.`,
+    });
+
+    return result.toTextStreamResponse();
 }

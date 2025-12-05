@@ -1,19 +1,29 @@
+import { generateText } from "ai";
+import { google } from "@ai-sdk/google";
 import { vectorStore } from "@/lib/vector-store";
 
-export async function getAnswer(query: string): Promise<string> {
-    try {
-        // Retrieve top 3 documents from Postgres vector store
-        const results = await vectorStore.similaritySearch(query, 3);
+export async function answerWithKnowledge(query: string): Promise<string> {
+    // 1. Retrieve relevant documents
+    const results = await vectorStore.similaritySearch(query, 3);
 
-        if (results.length === 0) {
-            return "I couldn't find any information about that in my knowledge base.";
-        }
-
-        // Combine the content of the top results
-        const context = results.map(doc => doc.pageContent).join("\n\n");
-        return `Based on our IT policy:\n${context}`;
-    } catch (error) {
-        console.error("Knowledge Agent Error:", error);
-        return "I'm having trouble accessing the knowledge base right now.";
+    if (results.length === 0) {
+        return "I couldn't find any specific information about that in my knowledge base. You might want to ask to speak to an agent.";
     }
+
+    const context = results.map(r => r.pageContent).join("\n\n---\n\n");
+
+    // 2. Generate answer
+    const { text } = await generateText({
+        model: google("gemini-2.5-flash"),
+        prompt: `You are an IT Support Assistant. Answer the user's question based ONLY on the following context.
+    
+    Context:
+    ${context}
+    
+    Question: ${query}
+    
+    If the context doesn't contain the answer, say you don't know and suggest asking for a human agent. Keep the answer helpful and concise.`,
+    });
+
+    return text;
 }

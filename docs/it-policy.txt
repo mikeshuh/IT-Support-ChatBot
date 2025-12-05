@@ -1,5 +1,39 @@
-IT Support Policy
-1. Password Reset: Users can reset their password by visiting https://password.example.com. If they are locked out, they must call the helpdesk at 555-0199.
-2. VPN Access: To connect to the VPN, use the Cisco AnyConnect client. The server address is vpn.example.com. You need your AD credentials and 2FA code.
-3. Software Installation: Users are not allowed to install unauthorized software. Request software via the Service Portal.
-4. Email Issues: If Outlook is not syncing, try restarting the application. If that fails, check your internet connection.
+IT Support Policy & Knowledge Base
+
+1. Password Management
+- Reset Portal: https://password.example.com
+- Policies: Passwords must be 12 characters, include specific characters. Expires every 90 days.
+- Locked Out: Contact Helpdesk at 555-0199 or visit the IT Kiosk on the 2nd floor.
+
+2. VPN Access (Remote Work)
+- Client: Cisco AnyConnect Secure Mobility Client.
+- Server Address: vpn.example.com (US), vpn-eu.example.com (Europe).
+- Auth: Active Directory credentials + Duo 2FA push.
+- Troubleshooting: If connection fails, check your internet connection first. Ensure you are not on a public network that blocks VPN ports.
+
+3. Hardware Requests
+- Standard Kit: MacBook Pro M3 (Devs), Dell XPS 15 (Business).
+- Peripherals: One monitor, dock, and mouse provided. Headsets upon request.
+- Broken Hardware: Report immediately via the portal. Do not attempt DIY repairs.
+- Ticket Category: "Hardware > Damage/Repair".
+
+4. Software & Access
+- Approved List: Slack, Zoom, VS Code, Office 365, Adobe Creative Cloud.
+- Request Process: Submit a "Software Access Request" in the portal. Manager approval required for paid licenses.
+- Shadow IT: Unapproved software installation is strictly prohibited and monitored.
+
+5. Wi-Fi Connectivity
+- SSID: "CorpNet-Secure" (Employees), "Guest-Wifi" (Visitors).
+- Login: Use your AD credentials for CorpNet.
+- Issues: If signal is weak in a meeting room, please report the Room Number in your ticket.
+
+6. Email & Communication
+- Client: Outlook or Webmail (outlook.office.com).
+- Phishing: Report suspicious emails using the "Report Phishing" button. NEVER share your password.
+- Sync Issues: Restart Outlook. If persistent, rebuild your profile via Control Panel > Mail.
+
+7. Escalation Matrix
+- Tier 1: Chatbot / Knowledge Base (Immediate).
+- Tier 2: Helpdesk Analysts (24-hour SLA).
+- Tier 3: SysAdmins / Network Engineering (Critical Issues).
+- Emergency: Call the NOC at 555-9111 only for system-wide outages.
