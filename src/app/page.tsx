@@ -82,7 +82,6 @@ export default function Home() {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
-    setAgentStatus({ agent: "Intake", status: "Analyzing your request..." });
 
     try {
       const response = await fetch("/api/chat", {
@@ -93,25 +92,57 @@ export default function Home() {
 
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
-      let assistantContent = "";
+      let buffer = "";
 
       if (reader) {
         const assistantId = (Date.now() + 1).toString();
-        setMessages((prev) => [...prev, { id: assistantId, role: "assistant", content: "" }]);
-
-        // Simulate agent status changes
-        setTimeout(() => setAgentStatus({ agent: "Knowledge", status: "Searching knowledge base..." }), 500);
-        setTimeout(() => setAgentStatus({ agent: "Response", status: "Generating response..." }), 1500);
+        let messageAdded = false;
 
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-          assistantContent += decoder.decode(value, { stream: true });
-          setMessages((prev) =>
-            prev.map((m) =>
-              m.id === assistantId ? { ...m, content: assistantContent } : m
-            )
-          );
+
+          buffer += decoder.decode(value, { stream: true });
+
+          // Parse SSE events from buffer
+          const lines = buffer.split("\n\n");
+          buffer = lines.pop() || ""; // Keep incomplete event in buffer
+
+          for (const line of lines) {
+            if (line.startsWith("data: ")) {
+              try {
+                const data = JSON.parse(line.slice(6));
+
+                if (data.type === "status") {
+                  // Update agent status from backend
+                  setAgentStatus({ agent: data.agent, status: data.status });
+                } else if (data.type === "text") {
+                  // Clear status when we start getting text
+                  setAgentStatus(null);
+
+                  // Add message container if not yet added
+                  if (!messageAdded) {
+                    messageAdded = true;
+                    setMessages((prev) => [...prev, { id: assistantId, role: "assistant", content: "" }]);
+                  }
+
+                  // Append text content
+                  setMessages((prev) =>
+                    prev.map((m) =>
+                      m.id === assistantId
+                        ? { ...m, content: m.content + data.content }
+                        : m
+                    )
+                  );
+                } else if (data.type === "done") {
+                  // Response complete
+                  setAgentStatus(null);
+                }
+              } catch (parseError) {
+                console.error("Failed to parse SSE event:", parseError);
+              }
+            }
+          }
         }
       }
     } catch (error) {

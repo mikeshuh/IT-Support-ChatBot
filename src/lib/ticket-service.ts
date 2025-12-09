@@ -30,10 +30,14 @@ async function ensureTable() {
             description TEXT,
             status TEXT DEFAULT 'open',
             priority TEXT DEFAULT 'medium',
-            category TEXT DEFAULT 'general',
+            category TEXT DEFAULT 'other',
             created_at TIMESTAMP DEFAULT NOW(),
             updated_at TIMESTAMP DEFAULT NOW()
         )
+    `);
+    // Add updated_at column if it doesn't exist (for older tables)
+    await pool.query(`
+        ALTER TABLE tickets ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP DEFAULT NOW()
     `);
 }
 
