@@ -1,39 +1,719 @@
-IT Support Policy & Knowledge Base
+================================================================================
+                    ACME CORPORATION IT SUPPORT POLICY & KNOWLEDGE BASE
+                              Version 3.2 | Effective January 2025
+================================================================================
 
-1. Password Management
-- Reset Portal: https://password.example.com
-- Policies: Passwords must be 12 characters, include specific characters. Expires every 90 days.
-- Locked Out: Contact Helpdesk at 555-0199 or visit the IT Kiosk on the 2nd floor.
+TABLE OF CONTENTS
+-----------------
+1. Password & Account Management
+2. VPN & Remote Access
+3. Hardware & Equipment
+4. Software & Applications
+5. Network & Wi-Fi Connectivity
+6. Email & Communication Tools
+7. Security Policies
+8. Data Management & Backup
+9. Printing & Scanning
+10. Mobile Device Management
+11. Meeting Room Technology
+12. IT Support & Escalation
+13. Onboarding & Offboarding
+14. Frequently Asked Questions
 
-2. VPN Access (Remote Work)
-- Client: Cisco AnyConnect Secure Mobility Client.
-- Server Address: vpn.example.com (US), vpn-eu.example.com (Europe).
-- Auth: Active Directory credentials + Duo 2FA push.
-- Troubleshooting: If connection fails, check your internet connection first. Ensure you are not on a public network that blocks VPN ports.
+================================================================================
+1. PASSWORD & ACCOUNT MANAGEMENT
+================================================================================
 
-3. Hardware Requests
-- Standard Kit: MacBook Pro M3 (Devs), Dell XPS 15 (Business).
-- Peripherals: One monitor, dock, and mouse provided. Headsets upon request.
-- Broken Hardware: Report immediately via the portal. Do not attempt DIY repairs.
-- Ticket Category: "Hardware > Damage/Repair".
+1.1 PASSWORD REQUIREMENTS
+-------------------------
+- Minimum Length: 12 characters
+- Must Include: At least one uppercase letter, one lowercase letter, one number, and one special character (!@#$%^&*)
+- Cannot Include: Your name, username, or common dictionary words
+- History: Cannot reuse any of your last 10 passwords
+- Expiration: Passwords expire every 90 days
+- Lockout: Account locks after 5 failed login attempts
 
-4. Software & Access
-- Approved List: Slack, Zoom, VS Code, Office 365, Adobe Creative Cloud.
-- Request Process: Submit a "Software Access Request" in the portal. Manager approval required for paid licenses.
-- Shadow IT: Unapproved software installation is strictly prohibited and monitored.
+1.2 PASSWORD RESET PROCEDURES
+-----------------------------
+Self-Service Reset:
+- Visit https://password.example.com
+- Click "Forgot Password"
+- Verify identity via backup email or phone
+- Create new password meeting requirements
+- Password takes effect immediately
 
-5. Wi-Fi Connectivity
-- SSID: "CorpNet-Secure" (Employees), "Guest-Wifi" (Visitors).
-- Login: Use your AD credentials for CorpNet.
-- Issues: If signal is weak in a meeting room, please report the Room Number in your ticket.
+Helpdesk-Assisted Reset:
+- Call IT Helpdesk: 555-0199
+- Provide employee ID and answer security questions
+- Temporary password issued (expires in 24 hours)
+- Must change password on first login
 
-6. Email & Communication
-- Client: Outlook or Webmail (outlook.office.com).
-- Phishing: Report suspicious emails using the "Report Phishing" button. NEVER share your password.
-- Sync Issues: Restart Outlook. If persistent, rebuild your profile via Control Panel > Mail.
+1.3 MULTI-FACTOR AUTHENTICATION (MFA)
+-------------------------------------
+- Required for: All employees accessing corporate systems
+- Primary Method: Duo Mobile app push notifications
+- Backup Methods: SMS codes, hardware tokens (YubiKey)
+- Setup: Visit https://mfa.example.com or contact IT
+- Lost Device: Call Helpdesk immediately to disable old device
 
-7. Escalation Matrix
-- Tier 1: Chatbot / Knowledge Base (Immediate).
-- Tier 2: Helpdesk Analysts (24-hour SLA).
-- Tier 3: SysAdmins / Network Engineering (Critical Issues).
-- Emergency: Call the NOC at 555-9111 only for system-wide outages.
+1.4 SINGLE SIGN-ON (SSO)
+------------------------
+- All corporate applications use SSO via Okta
+- Login URL: https://acme.okta.com
+- Benefits: One password for all apps
+- Supported Apps: Slack, Zoom, Salesforce, Workday, Jira, Confluence, GitHub
+
+1.5 ACCOUNT LOCKOUT
+-------------------
+If your account is locked:
+1. Wait 30 minutes for automatic unlock, OR
+2. Visit the IT Kiosk on the 2nd floor of Building A
+3. Call Helpdesk at 555-0199
+4. Use the self-service unlock at https://unlock.example.com
+
+================================================================================
+2. VPN & REMOTE ACCESS
+================================================================================
+
+2.1 VPN CLIENT INFORMATION
+--------------------------
+- Software: Cisco AnyConnect Secure Mobility Client
+- Download: https://vpn.example.com (click "Download Client")
+- Version Required: 4.10 or higher
+- Supported OS: Windows 10/11, macOS 12+, Linux Ubuntu 20.04+
+
+2.2 VPN SERVER ADDRESSES
+------------------------
+- United States: vpn.example.com
+- Europe (GDPR compliant): vpn-eu.example.com
+- Asia Pacific: vpn-apac.example.com
+- Development/Test: vpn-dev.example.com
+
+2.3 CONNECTING TO VPN
+---------------------
+Step-by-step instructions:
+1. Open Cisco AnyConnect
+2. Enter server address: vpn.example.com
+3. Click "Connect"
+4. Enter your AD username (firstname.lastname)
+5. Enter your AD password
+6. Approve the Duo push notification on your phone
+7. Wait for "Connected" status
+
+2.4 VPN TROUBLESHOOTING
+-----------------------
+Connection Fails:
+- Verify internet connectivity first
+- Ensure you're not on a network blocking ports 443, 500, 4500
+- Try a different network (coffee shop, phone hotspot)
+- Restart the AnyConnect client
+- Reboot your computer
+
+Slow Performance:
+- Connect to the geographically closest server
+- Close bandwidth-heavy applications
+- Check if VPN is required (some apps work without VPN)
+
+Split Tunnel:
+- VPN only routes corporate traffic by default
+- Personal browsing goes through your local connection
+- For full tunnel, select "Full Tunnel" profile
+
+2.5 REMOTE DESKTOP ACCESS
+-------------------------
+- Server: rdp.example.com
+- Port: 3389 (default, should be open over VPN)
+- Client: Microsoft Remote Desktop (all platforms)
+- Access: Request via IT portal, manager approval required
+
+================================================================================
+3. HARDWARE & EQUIPMENT
+================================================================================
+
+3.1 STANDARD EQUIPMENT BY ROLE
+------------------------------
+Engineering/Development:
+- MacBook Pro 16" M3 Pro (32GB RAM, 512GB SSD)
+- LG 27" 4K UltraFine Monitor
+- Apple Magic Keyboard and Mouse
+- CalDigit TS4 Thunderbolt Dock
+
+Business/Sales/Marketing:
+- Dell XPS 15 (Intel i7, 16GB RAM, 512GB SSD)
+- Dell 27" UltraSharp Monitor
+- Dell Wireless Keyboard and Mouse
+- Dell WD19S Docking Station
+
+Executive:
+- MacBook Pro 14" M3 Pro
+- LG 32" 4K Monitor
+- Executive standing desk setup
+
+3.2 REQUESTING NEW EQUIPMENT
+----------------------------
+- Portal: https://equipment.example.com
+- Approval: Manager must approve within 48 hours
+- Delivery: 5-7 business days for in-stock items
+- Custom Orders: 2-4 weeks depending on item
+
+3.3 EQUIPMENT REFRESH CYCLE
+---------------------------
+- Laptops: Replaced every 3 years
+- Monitors: Replaced every 5 years
+- Peripherals: Replaced as needed
+- You'll receive notification 30 days before refresh
+
+3.4 BROKEN OR DAMAGED EQUIPMENT
+-------------------------------
+DO:
+- Report immediately via IT portal
+- Select category: "Hardware > Damage/Repair"
+- Include photos of damage
+- Note the asset tag number (on sticker)
+
+DO NOT:
+- Attempt DIY repairs
+- Open laptop cases
+- Replace parts yourself
+- Discard broken equipment
+
+Response Times:
+- Critical (cannot work): 4-hour response
+- Standard: 1 business day
+- Loaner available while repairing
+
+3.5 ASSET TAG LOCATIONS
+-----------------------
+- Laptops: Bottom of device, near serial number
+- Monitors: Back of monitor, lower right
+- Format: ACME-XXXXXX
+
+================================================================================
+4. SOFTWARE & APPLICATIONS
+================================================================================
+
+4.1 PRE-APPROVED SOFTWARE (No request needed)
+---------------------------------------------
+Communication:
+- Slack (business messaging)
+- Zoom (video conferencing)
+- Microsoft Teams (backup/external calls)
+
+Productivity:
+- Microsoft Office 365 (Word, Excel, PowerPoint, Outlook)
+- Google Workspace (for external collaboration)
+- Notion (documentation)
+
+Development:
+- VS Code
+- IntelliJ IDEA
+- Docker Desktop
+- Git/GitHub Desktop
+
+Design:
+- Figma
+- Adobe Creative Cloud (request license)
+
+4.2 REQUESTING SOFTWARE
+-----------------------
+For software not on the approved list:
+1. Submit "Software Access Request" at https://requests.example.com
+2. Provide business justification
+3. IT Security reviews within 3 business days
+4. Manager approval required for paid licenses
+5. If approved, installation instructions provided
+
+4.3 SHADOW IT POLICY
+--------------------
+- Installing unapproved software is STRICTLY PROHIBITED
+- All software installations are monitored
+- Violations reported to manager and HR
+- First offense: Written warning
+- Second offense: Disciplinary action
+
+4.4 LICENSE MANAGEMENT
+----------------------
+- View your licenses: https://licenses.example.com
+- Transfer licenses when changing roles
+- Report unused licenses to save costs
+- Adobe CC: 25 seats available, request queue if full
+
+================================================================================
+5. NETWORK & WI-FI CONNECTIVITY
+================================================================================
+
+5.1 CORPORATE WI-FI NETWORKS
+----------------------------
+CorpNet-Secure (Employees):
+- SSID: CorpNet-Secure
+- Authentication: 802.1X with AD credentials
+- Auto-connects on corporate devices
+- Full network access
+
+CorpNet-IoT (Internet of Things):
+- SSID: CorpNet-IoT
+- For printers, meeting room displays, etc.
+- Limited network access
+
+Guest-Wifi (Visitors):
+- SSID: Guest-Wifi
+- Password: Changes monthly, ask reception
+- Current Password: Posted in lobby
+- Limited to internet access only
+
+5.2 CONNECTING TO WI-FI
+-----------------------
+Windows:
+1. Click Wi-Fi icon in taskbar
+2. Select "CorpNet-Secure"
+3. Enter AD credentials when prompted
+4. Check "Connect automatically"
+
+macOS:
+1. Click Wi-Fi icon in menu bar
+2. Select "CorpNet-Secure"
+3. Enter AD credentials
+4. Check "Remember this network"
+
+5.3 WI-FI TROUBLESHOOTING
+-------------------------
+Cannot Connect:
+- Verify password is correct
+- Forget network and reconnect
+- Restart Wi-Fi on device
+- Move closer to access point
+
+Slow Connection:
+- Check number of devices connected
+- Move to less crowded area
+- Use Ethernet if available (building lobbies)
+
+Dead Zones:
+- Report to IT with exact room number
+- Include signal strength reading
+- Temporary fix: Use mobile hotspot
+
+5.4 ETHERNET ACCESS
+-------------------
+- Available in all desks and meeting rooms
+- Automatic IP via DHCP
+- Faster and more reliable than Wi-Fi
+- Use provided Ethernet-to-USB adapter if needed
+
+================================================================================
+6. EMAIL & COMMUNICATION TOOLS
+================================================================================
+
+6.1 EMAIL CLIENT OPTIONS
+------------------------
+Desktop:
+- Microsoft Outlook (recommended)
+- Apple Mail (macOS)
+
+Web:
+- Outlook Web Access: outlook.office.com
+- Works on any browser
+
+Mobile:
+- Outlook Mobile (iOS/Android)
+- Requires MDM enrollment
+
+6.2 EMAIL CONFIGURATION
+-----------------------
+Server Settings (if needed):
+- IMAP: outlook.office365.com (Port 993, SSL)
+- SMTP: smtp.office365.com (Port 587, TLS)
+- Exchange: autodiscover.example.com
+
+Signature Template:
+- Download from: https://brand.example.com/signature
+- Include: Name, Title, Phone, Email
+- Company logo automatically included
+
+6.3 EMAIL STORAGE & LIMITS
+--------------------------
+- Mailbox Size: 100GB
+- Attachment Limit: 25MB per email
+- Large Files: Use OneDrive sharing link
+- Archive: Outlook auto-archives after 2 years
+
+6.4 PHISHING & SECURITY
+-----------------------
+NEVER:
+- Click links from unknown senders
+- Download unexpected attachments
+- Share your password via email
+- Provide credentials to suspicious requests
+
+Report Phishing:
+1. Click "Report Phishing" button in Outlook ribbon
+2. Email is quarantined and analyzed
+3. Security team responds within 2 hours
+
+6.5 CALENDAR & SCHEDULING
+-------------------------
+- Default calendar: Outlook/Exchange
+- Book meeting rooms via Outlook or https://rooms.example.com
+- Include video link for remote attendees
+- Set working hours in Outlook preferences
+
+6.6 SLACK USAGE
+---------------
+Workspaces:
+- acme.slack.com (primary)
+- acme-eng.slack.com (engineering only)
+
+Best Practices:
+- Use threads to keep channels organized
+- @here for urgent matters during work hours
+- @channel sparingly (notifies everyone)
+- DMs for private conversations
+
+================================================================================
+7. SECURITY POLICIES
+================================================================================
+
+7.1 ACCEPTABLE USE POLICY
+-------------------------
+Corporate devices are for business use. Limited personal use permitted if:
+- Does not interfere with work
+- Does not consume excessive bandwidth
+- Does not violate any laws or policies
+- Does not store inappropriate content
+
+7.2 DATA CLASSIFICATION
+-----------------------
+Public:
+- Marketing materials, press releases
+- No restrictions on sharing
+
+Internal:
+- General business documents
+- Share only with employees
+
+Confidential:
+- Customer data, financial records
+- Encrypt when sharing externally
+- Manager approval for external sharing
+
+Restricted:
+- PII, healthcare data, trade secrets
+- Need-to-know access only
+- Audit logging enabled
+
+7.3 CLEAN DESK POLICY
+---------------------
+End of Each Day:
+- Lock computer (Windows+L or Ctrl+Cmd+Q)
+- Store sensitive documents in locked drawer
+- Clear whiteboards of sensitive info
+- Shred unnecessary printed documents
+
+7.4 DEVICE SECURITY
+-------------------
+Required Settings:
+- Full disk encryption enabled
+- Screen lock after 5 minutes
+- Antivirus running (CrowdStrike)
+- Firewall enabled
+
+Lost/Stolen Device:
+1. Report IMMEDIATELY to IT: 555-0199
+2. Device will be remote wiped
+3. File police report if stolen
+4. Complete incident report form
+
+7.5 USB & EXTERNAL DRIVES
+-------------------------
+- USB drives must be company-provided and encrypted
+- Personal USB drives NOT allowed
+- Exception process for specific needs
+- All USB activity logged
+
+================================================================================
+8. DATA MANAGEMENT & BACKUP
+================================================================================
+
+8.1 FILE STORAGE LOCATIONS
+--------------------------
+Personal Files:
+- OneDrive for Business (synced to cloud)
+- 1TB storage per user
+- Auto-backup enabled
+
+Team Files:
+- SharePoint team sites
+- Shared drives for departments
+
+Code Repositories:
+- GitHub Enterprise
+- All code must be in repo
+
+8.2 BACKUP POLICY
+-----------------
+- OneDrive: Continuous backup
+- SharePoint: Daily snapshots, 30-day retention
+- Servers: Nightly backup, 90-day retention
+- Databases: Real-time replication + daily snapshots
+
+8.3 FILE RECOVERY
+-----------------
+Accidentally Deleted Files:
+1. Check Recycle Bin / Trash first
+2. OneDrive: Version history (up to 30 days)
+3. SharePoint: Site recycle bin
+4. Contact IT for older recoveries
+
+================================================================================
+9. PRINTING & SCANNING
+================================================================================
+
+9.1 PRINTER LOCATIONS
+---------------------
+- Each floor has a multifunction printer
+- High-volume printer in mailroom (Building A, 1st floor)
+- Color printing at designated stations only
+
+9.2 HOW TO PRINT
+----------------
+1. Send print job to "CorpPrint-Secure"
+2. Go to any printer
+3. Tap your badge on the reader
+4. Select your print job
+5. Collect printouts (released only after authentication)
+
+9.3 SCANNING
+------------
+1. Place document in feeder or on glass
+2. Tap badge to authenticate
+3. Select "Scan to Email" or "Scan to OneDrive"
+4. PDF sent to your email within minutes
+
+9.4 PRINT COSTS
+---------------
+- Black & White: $0.03/page
+- Color: $0.10/page
+- Charged to department budget
+- Monthly reports sent to managers
+
+================================================================================
+10. MOBILE DEVICE MANAGEMENT (MDM)
+================================================================================
+
+10.1 ENROLLING YOUR DEVICE
+--------------------------
+To access email on personal devices:
+1. Download Microsoft Intune Company Portal
+2. Sign in with corporate credentials
+3. Follow enrollment prompts
+4. Accept security policy requirements
+
+10.2 MDM REQUIREMENTS
+---------------------
+Enrolled devices must have:
+- Passcode/biometric lock
+- Latest OS version
+- Encryption enabled
+- Remote wipe capability
+
+10.3 PERSONAL DEVICE POLICY (BYOD)
+----------------------------------
+- Allowed for email and Slack access
+- No company data stored locally
+- IT can remote wipe ONLY company data
+- You retain ownership and personal data
+
+================================================================================
+11. MEETING ROOM TECHNOLOGY
+================================================================================
+
+11.1 BOOKING ROOMS
+------------------
+- Via Outlook: Add room as attendee
+- Via Web: https://rooms.example.com
+- Room displays show real-time availability
+
+11.2 ROOM EQUIPMENT
+-------------------
+All rooms include:
+- Large display (Teams/Zoom compatible)
+- Conference speakerphone
+- HDMI and USB-C cables
+- Whiteboard with markers
+
+11.3 STARTING A MEETING
+-----------------------
+1. Tap "Start Meeting" on room display
+2. Select your calendar meeting, OR
+3. Join via meeting link using the room camera
+4. Share screen via HDMI or wireless (AirPlay/Miracast)
+
+11.4 TROUBLESHOOTING
+--------------------
+Display Not Working:
+- Check power cable
+- Try different HDMI port
+- Restart room computer (button under display)
+
+Audio Issues:
+- Check mute button on conference phone
+- Ensure correct audio device selected in Zoom/Teams
+- Call IT if persistent: 555-0199
+
+================================================================================
+12. IT SUPPORT & ESCALATION
+================================================================================
+
+12.1 HOW TO GET HELP
+--------------------
+Self-Service:
+- Knowledge Base: https://help.example.com
+- FAQ: Most common issues resolved in minutes
+- Password Reset: https://password.example.com
+
+IT Helpdesk:
+- Portal: https://support.example.com (create tickets)
+- Phone: 555-0199 (Mon-Fri, 7am-7pm)
+- Email: helpdesk@example.com
+- Walk-in: IT Kiosk, Building A, 2nd Floor
+
+Emergency (System-wide outages only):
+- NOC Hotline: 555-9111 (24/7)
+
+12.2 ESCALATION MATRIX
+----------------------
+Tier 1 - Self-Service / Chatbot:
+- Password resets
+- Basic troubleshooting
+- How-to questions
+- Response: Immediate
+
+Tier 2 - Helpdesk Analysts:
+- Hardware issues
+- Software installation
+- Account problems
+- Response: Within 24 hours
+
+Tier 3 - System Administrators:
+- Server issues
+- Network problems
+- Security incidents
+- Response: Within 4 hours (critical)
+
+Tier 4 - Engineering:
+- Infrastructure changes
+- Major outages
+- Development issues
+- Response: Varies by severity
+
+12.3 TICKET PRIORITIES
+----------------------
+Critical:
+- Complete work stoppage
+- Security breach
+- System-wide outage
+- SLA: 4 hours
+
+High:
+- Major functionality impaired
+- Multiple users affected
+- SLA: 8 hours
+
+Medium:
+- Single user impacted
+- Workaround available
+- SLA: 24 hours
+
+Low:
+- Minor inconvenience
+- Enhancement request
+- SLA: 5 business days
+
+12.4 TRACKING YOUR TICKET
+-------------------------
+- Check status: https://support.example.com
+- Ticket updates sent via email
+- Add comments/info to existing ticket
+- Escalate if SLA missed: Call 555-0199
+
+================================================================================
+13. ONBOARDING & OFFBOARDING
+================================================================================
+
+13.1 NEW EMPLOYEE SETUP
+-----------------------
+Before Day 1:
+- IT receives notification from HR
+- Equipment ordered and configured
+- Accounts created (email, AD, apps)
+
+Day 1:
+- Pick up equipment at IT Kiosk
+- Sign equipment agreement
+- Complete security training
+- Set up MFA/Duo
+
+First Week:
+- Complete all required training modules
+- Request additional software as needed
+- Join relevant Slack channels
+
+13.2 OFFBOARDING / DEPARTURE
+----------------------------
+Last Day:
+- Return ALL equipment to IT Kiosk
+- Laptop, monitors, peripherals, badges
+- Sign equipment return form
+
+Account Deactivation:
+- Email forwarding set up (if approved)
+- Access revoked at end of last day
+- Data archived per retention policy
+
+================================================================================
+14. FREQUENTLY ASKED QUESTIONS
+================================================================================
+
+Q: How do I connect to Wi-Fi on my first day?
+A: Connect to "CorpNet-Secure" and enter your AD credentials (firstname.lastname and password from welcome email).
+
+Q: What's my username format?
+A: firstname.lastname (e.g., john.smith)
+
+Q: Can I use my personal laptop for work?
+A: Only for accessing email and Slack via browser or enrolled MDM. No company data storage.
+
+Q: How long until my ticket is resolved?
+A: Depends on priority. Critical: 4 hours, High: 8 hours, Medium: 24 hours, Low: 5 days.
+
+Q: How do I get Adobe Creative Cloud?
+A: Submit Software Access Request at https://requests.example.com. License pool limited, may need to wait.
+
+Q: My VPN keeps disconnecting, what do I do?
+A: Try connecting to a different server (vpn-eu.example.com). If persistent, check your internet stability and submit a ticket.
+
+Q: Where can I print in color?
+A: Color printers are at designated stations on each floor. Check floor map at https://maps.example.com.
+
+Q: How do I share large files (>25MB)?
+A: Upload to OneDrive, then share the link via email instead of attaching the file.
+
+Q: Who do I contact for a security concern?
+A: Report immediately to security@example.com or call Security Operations at 555-7373.
+
+Q: How do I request a second monitor?
+A: Submit equipment request at https://equipment.example.com. Requires manager approval.
+
+Q: What happens if I forget my password while traveling?
+A: Use https://password.example.com self-service, or call Helpdesk at 555-0199 (they're available during US business hours).
+
+Q: Can I install games on my work laptop?
+A: Personal software installation is prohibited. See Shadow IT policy.
+
+Q: How often should I restart my computer?
+A: At least once per week. This helps apply updates and clear memory.
+
+================================================================================
+                              END OF IT POLICY DOCUMENT
+                    For questions, contact helpdesk@example.com
+================================================================================

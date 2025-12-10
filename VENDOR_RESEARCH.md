@@ -35,19 +35,19 @@ This document analyzes two leading ITSM vendors to understand the competitive la
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    ServiceNow Platform                   │
+│                    ServiceNow Platform                  │
 ├─────────────────────────────────────────────────────────┤
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │   Virtual    │  │  Predictive  │  │   Service    │  │
-│  │    Agent     │  │ Intelligence │  │   Catalog    │  │
-│  └──────────────┘  └──────────────┘  └──────────────┘  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│  │   Virtual    │  │  Predictive  │  │   Service    │   │
+│  │    Agent     │  │ Intelligence │  │   Catalog    │   │
+│  └──────────────┘  └──────────────┘  └──────────────┘   │
 ├─────────────────────────────────────────────────────────┤
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │  Knowledge   │  │   Incident   │  │   Change     │  │
-│  │     Base     │  │  Management  │  │  Management  │  │
-│  └──────────────┘  └──────────────┘  └──────────────┘  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│  │  Knowledge   │  │   Incident   │  │   Change     │   │
+│  │     Base     │  │  Management  │  │  Management  │   │
+│  └──────────────┘  └──────────────┘  └──────────────┘   │
 ├─────────────────────────────────────────────────────────┤
-│              Now Platform (Database, Workflow)           │
+│              Now Platform (Database, Workflow)          │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -104,19 +104,19 @@ This document analyzes two leading ITSM vendors to understand the competitive la
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    Zendesk Suite                         │
+│                    Zendesk Suite                        │
 ├─────────────────────────────────────────────────────────┤
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │   Answer     │  │    Flow      │  │   Agent      │  │
-│  │     Bot      │  │   Builder    │  │  Workspace   │  │
-│  └──────────────┘  └──────────────┘  └──────────────┘  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│  │   Answer     │  │    Flow      │  │   Agent      │   │
+│  │     Bot      │  │   Builder    │  │  Workspace   │   │
+│  └──────────────┘  └──────────────┘  └──────────────┘   │
 ├─────────────────────────────────────────────────────────┤
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │    Guide     │  │   Explore    │  │    Talk      │  │
-│  │ (Knowledge)  │  │ (Analytics)  │  │   (Voice)    │  │
-│  └──────────────┘  └──────────────┘  └──────────────┘  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│  │    Guide     │  │   Explore    │  │    Talk      │   │
+│  │ (Knowledge)  │  │ (Analytics)  │  │   (Voice)    │   │
+│  └──────────────┘  └──────────────┘  └──────────────┘   │
 ├─────────────────────────────────────────────────────────┤
-│              Sunshine Platform (Open, Flexible)          │
+│              Sunshine Platform (Open, Flexible)         │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -158,22 +158,6 @@ This document analyzes two leading ITSM vendors to understand the competitive la
 | Omnichannel support | Custom agent orchestration |
 | Rich marketplace | No per-agent licensing |
 | Mobile apps | Real-time streaming responses |
-
----
-
-## Competitive Analysis Matrix
-
-| Capability | ServiceNow | Zendesk | Our Solution |
-|------------|------------|---------|--------------|
-| **AI Routing** | ✅ Advanced | ✅ Good | ✅ LLM-powered |
-| **RAG/Knowledge** | ✅ Extensive | ✅ Good | ✅ pgvector + embeddings |
-| **Workflow Automation** | ✅ Best-in-class | ⚠️ Limited | ✅ MCP tools |
-| **Multi-Agent Architecture** | ⚠️ Modular | ⚠️ Single bot | ✅ 4 specialized agents |
-| **Real-time Streaming** | ❌ No | ❌ No | ✅ SSE streaming |
-| **Open Source** | ❌ No | ❌ No | ✅ Yes |
-| **MCP Integration** | ❌ No | ❌ No | ✅ Native |
-| **Self-Hosted** | ❌ No | ❌ No | ✅ Yes |
-| **Pricing** | $$$$ | $$$ | $ (infrastructure only) |
 
 ---
 

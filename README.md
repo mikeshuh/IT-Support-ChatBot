@@ -33,14 +33,14 @@ An AI-powered IT support system using multi-agent orchestration, RAG (Retrieval-
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         User Interface                           │
-│              (Next.js + TailwindCSS + Streaming SSE)             │
+│                         User Interface                          │
+│              (Next.js + TailwindCSS + Streaming SSE)            │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                        INTAKE AGENT                              │
-│         Classifies intent: knowledge | workflow | escalation     │
+│                        INTAKE AGENT                             │
+│         Classifies intent: knowledge | workflow | escalation    │
 └────────────────────────────┬────────────────────────────────────┘
                              │
          ┌───────────────────┼───────────────────┐
@@ -56,7 +56,7 @@ An AI-powered IT support system using multi-agent orchestration, RAG (Retrieval-
          └───────────────────┼───────────────────┘
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                     DATA LAYER                                   │
+│                     DATA LAYER                                  │
 │  PostgreSQL + pgvector | MCP Server | Metrics Tracking          │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -91,6 +91,28 @@ An AI-powered IT support system using multi-agent orchestration, RAG (Retrieval-
 
 ---
 
+## Example Queries
+
+Try these example queries to test the RAG knowledge base and agent capabilities:
+
+### Knowledge Base (RAG) Queries
+| Query | Expected Response |
+|-------|-------------------|
+| "What are the VPN server addresses for each region?" | US, Europe, APAC, and Dev server addresses |
+| "What are the password requirements?" | 12 chars, special chars, 90-day expiration, history of 10 |
+| "What laptop do engineers receive?" | MacBook Pro 16" M3 Pro, 32GB RAM, 512GB SSD |
+| "What are the IT support escalation tiers?" | Tier 1-4 with response time SLAs |
+| "How do I connect to Wi-Fi?" | CorpNet-Secure SSID, AD credentials |
+| "What is the clean desk policy?" | Lock computer, store docs, shred papers |
+
+### Workflow Actions
+| Query | Expected Action |
+|-------|-----------------|
+| "I need to reset my password" | Instructions to visit password.example.com |
+| "Create a ticket for my broken monitor" | Creates ticket in database |
+| "I can't connect to the VPN" | Troubleshooting steps + ticket creation offer |
+| "Report a phishing email" | Security guidance + escalation option |
+
 ## Quick Start
 
 ### Prerequisites
@@ -101,7 +123,7 @@ An AI-powered IT support system using multi-agent orchestration, RAG (Retrieval-
 ### Installation
 
 ```bash
-# Clone and install
+# Clone the repository
 git clone <repository>
 cd IT-Support-ChatBot
 npm install
@@ -109,21 +131,19 @@ npm install
 # Configure environment
 echo "GOOGLE_GENERATIVE_AI_API_KEY=your-key-here" > .env
 
-# Start database
-docker-compose up db -d
+# Start all services (db, app, mcp)
+docker compose up -d
 
-# Run development server
-npm run dev
+# Embed IT policies into vector database
+npx tsx src/scripts/ingest.ts
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
 
-### Full Docker Deployment
+### Rebuild After Changes
 
 ```bash
-# Set API key and run all services
-export GOOGLE_GENERATIVE_AI_API_KEY=your-key-here
-docker-compose up --build
+docker compose up --build -d
 ```
 
 ---
@@ -230,7 +250,7 @@ Access via the `/api/metrics` endpoint (when available).
 
 ## Documentation
 
-- [Vendor Research](docs/VENDOR_RESEARCH.md) - ServiceNow & Zendesk comparison
+- [Vendor Research](VENDOR_RESEARCH.md) - ServiceNow & Zendesk comparison
 - [IT Policy](docs/it-policy.txt) - Knowledge base source document
 
 ---

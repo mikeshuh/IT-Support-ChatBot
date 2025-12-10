@@ -59,8 +59,8 @@ Available Actions:
 6. unknown - If the request doesn't match any action
 
 For create_ticket, extract:
-- title: A short descriptive title
-- description: The full problem description
+- title: A SHORT title (3-6 words max). Examples: "Broken Monitor", "VPN Connection Issue", "Password Reset Request", "Laptop Not Booting". DO NOT include explanatory text or prompts - just a simple title.
+- description: The full problem description from the user
 - priority: low/medium/high/critical (based on urgency)
 - category: hardware/software/network/access/other
 
