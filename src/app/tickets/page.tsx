@@ -111,12 +111,13 @@ export default function TicketsPage() {
             {/* Content */}
             <div className="max-w-6xl mx-auto px-4 py-8">
                 {/* Stats */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
                     {[
                         { label: "Total", count: tickets.length, color: "from-blue-500 to-blue-600" },
                         { label: "Open", count: tickets.filter(t => t.status === "open").length, color: "from-blue-400 to-cyan-500" },
                         { label: "In Progress", count: tickets.filter(t => t.status === "in_progress").length, color: "from-yellow-400 to-orange-500" },
                         { label: "Resolved", count: tickets.filter(t => t.status === "resolved").length, color: "from-green-400 to-emerald-500" },
+                        { label: "Closed", count: tickets.filter(t => t.status === "closed").length, color: "from-gray-400 to-gray-500" },
                     ].map((stat) => (
                         <div
                             key={stat.label}

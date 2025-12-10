@@ -5,6 +5,7 @@ import {
     createTicket,
     getTicket,
     listTickets,
+    updateTicketStatus,
     analyzeSystemLogs,
     type Ticket,
 } from "@/lib/ticket-service";
@@ -15,6 +16,7 @@ const ActionSchema = z.object({
         "create_ticket",
         "check_status",
         "list_tickets",
+        "update_status",
         "password_reset",
         "analyze_logs",
         "unknown",
@@ -29,6 +31,8 @@ const ActionSchema = z.object({
         ticketId: z.number().optional(),
         // For list_tickets
         statusFilter: z.enum(["open", "in_progress", "resolved", "closed", "all"]).optional(),
+        // For update_status
+        newStatus: z.enum(["open", "in_progress", "resolved", "closed"]).optional(),
         // For analyze_logs
         system: z.enum(["vpn", "email", "network", "authentication"]).optional(),
     }),
@@ -54,9 +58,10 @@ Available Actions:
 1. create_ticket - Create a new IT support ticket for hardware issues, software problems, access requests, etc.
 2. check_status - Check the status of an existing ticket (requires ticket ID)
 3. list_tickets - List recent tickets, optionally filtered by status
-4. password_reset - Initiate a password reset
-5. analyze_logs - Analyze system logs for diagnostics (vpn, email, network, authentication)
-6. unknown - If the request doesn't match any action
+4. update_status - Update a ticket's status (mark as resolved, closed, in_progress, or reopen)
+5. password_reset - Initiate a password reset
+6. analyze_logs - Analyze system logs for diagnostics (vpn, email, network, authentication)
+7. unknown - If the request doesn't match any action
 
 For create_ticket, extract:
 - title: A SHORT title (3-6 words max). Examples: "Broken Monitor", "VPN Connection Issue", "Password Reset Request", "Laptop Not Booting". DO NOT include explanatory text or prompts - just a simple title.
@@ -69,6 +74,15 @@ For check_status, extract:
 
 For list_tickets, extract:
 - statusFilter: open/in_progress/resolved/closed/all
+
+For update_status, extract:
+- ticketId: The numeric ticket ID to update
+- newStatus: Map the user's intent to one of these values:
+  * "closed" - if user says: close, closed, mark closed, shut, complete, done, finished
+  * "resolved" - if user says: resolve, resolved, fix, fixed, mark resolved, mark as resolved
+  * "in_progress" - if user says: in progress, working on, start, started, begin
+  * "open" - if user says: reopen, open, re-open, unclose
+  IMPORTANT: Always extract newStatus when the user's intent is clear. "close ticket 10" means newStatus="closed".
 
 For analyze_logs, extract:
 - system: vpn/email/network/authentication
@@ -138,6 +152,57 @@ User Request: "${query}"`,
                     success: true,
                     message: `Here are your recent tickets:\n${ticketList}`,
                     data: tickets,
+                };
+            }
+
+            case "update_status": {
+                if (!decision.parameters.ticketId) {
+                    return {
+                        action: "update_status",
+                        success: false,
+                        message: "I'd be happy to update the ticket status. Could you please provide the ticket number?",
+                    };
+                }
+
+                // Fallback: infer status from keywords if LLM didn't extract it
+                let status = decision.parameters.newStatus;
+                if (!status) {
+                    const lowerQuery = query.toLowerCase();
+                    if (lowerQuery.includes("close") || lowerQuery.includes("shut") || lowerQuery.includes("done") || lowerQuery.includes("complete") || lowerQuery.includes("finish")) {
+                        status = "closed";
+                    } else if (lowerQuery.includes("resolve") || lowerQuery.includes("fix")) {
+                        status = "resolved";
+                    } else if (lowerQuery.includes("progress") || lowerQuery.includes("start") || lowerQuery.includes("work") || lowerQuery.includes("begin")) {
+                        status = "in_progress";
+                    } else if (lowerQuery.includes("reopen") || lowerQuery.includes("re-open")) {
+                        status = "open";
+                    }
+                }
+
+                if (!status) {
+                    return {
+                        action: "update_status",
+                        success: false,
+                        message: "What status would you like to set? Options: open, in_progress, resolved, or closed.",
+                    };
+                }
+
+                const updatedTicket = await updateTicketStatus(
+                    decision.parameters.ticketId,
+                    status
+                );
+                if (!updatedTicket) {
+                    return {
+                        action: "update_status",
+                        success: false,
+                        message: `I couldn't find ticket #${decision.parameters.ticketId}. Please verify the ticket number and try again.`,
+                    };
+                }
+                return {
+                    action: "update_status",
+                    success: true,
+                    message: `Done! Ticket #${updatedTicket.id} has been updated to "${updatedTicket.status}".`,
+                    data: updatedTicket,
                 };
             }
 
