@@ -38,9 +38,9 @@
 │ │    AGENT     │    │    AGENT     │    │     AGENT        │                │
 │ ├──────────────┤    ├──────────────┤    ├──────────────────┤                │
 │ │ • RAG search │    │ • Ticket CRUD│    │ • High priority  │                │
-│ │ • Policy Q&A │    │ • Password   │    │   ticket create  │                │
-│ │ • How-to help│    │   reset      │    │ • Human handoff  │                │
-│ │              │    │ • Log analyze│    │   notification   │                │
+│ │ • Policy Q&A │    │ • Log analyze│    │   ticket create  │                │
+│ │ • How-to help│    │              │    │ • Human handoff  │                │
+│ │              │    │              │    │   notification   │                │
 │ └──────────────┘    └──────────────┘    └──────────────────┘                │
 │        │                   │                     │                          │
 └────────┼───────────────────┼─────────────────────┼──────────────────────────┘

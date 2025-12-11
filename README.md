@@ -20,10 +20,9 @@ An AI-powered IT support system using multi-agent orchestration, RAG (Retrieval-
 | Lack of ticket visibility | Anxiety, duplicate tickets | Real-time ticket dashboard |
 
 ### Success Metrics
-- **Response Latency:** < 2 seconds for initial response
+- **Response Latency:** < 5 seconds for initial response
 - **Routing Accuracy:** > 95% correct agent classification  
 - **Ticket Success Rate:** > 98% successful ticket creation
-- **Self-Service Resolution:** > 60% resolved without human escalation
 
 ---
 
@@ -49,8 +48,8 @@ An AI-powered IT support system using multi-agent orchestration, RAG (Retrieval-
 │ KNOWLEDGE AGENT │ │ WORKFLOW AGENT  │ │ ESCALATION AGENT│
 │                 │ │                 │ │                 │
 │ • RAG retrieval │ │ • Ticket CRUD   │ │ • Human handoff │
-│ • Policy lookup │ │ • Password reset│ │ • High-priority │
-│ • How-to guides │ │ • Log analysis  │ │   ticket create │
+│ • Policy lookup │ │ • Log analysis  │ │ • High-priority │
+│ • How-to guides │ │                 │ │   ticket create │
 └─────────────────┘ └─────────────────┘ └─────────────────┘
          │                   │                   │
          └───────────────────┼───────────────────┘
@@ -265,9 +264,3 @@ Access via the `/api/metrics` endpoint (when available).
 | **Protocol** | Model Context Protocol (MCP) |
 | **Testing** | Vitest, Testing Library |
 | **Deployment** | Docker, Docker Compose |
-
----
-
-## License
-
-MIT
