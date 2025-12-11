@@ -17,7 +17,6 @@ const ActionSchema = z.object({
         "check_status",
         "list_tickets",
         "update_status",
-        "password_reset",
         "analyze_logs",
         "unknown",
     ]),
@@ -59,9 +58,8 @@ Available Actions:
 2. check_status - Check the status of an existing ticket (requires ticket ID)
 3. list_tickets - List recent tickets, optionally filtered by status
 4. update_status - Update a ticket's status (mark as resolved, closed, in_progress, or reopen)
-5. password_reset - Initiate a password reset
-6. analyze_logs - Analyze system logs for diagnostics (vpn, email, network, authentication)
-7. unknown - If the request doesn't match any action
+5. analyze_logs - Analyze system logs for diagnostics (vpn, email, network, authentication)
+6. unknown - If the request doesn't match any action
 
 For create_ticket, extract:
 - title: A SHORT title (3-6 words max). Examples: "Broken Monitor", "VPN Connection Issue", "Password Reset Request", "Laptop Not Booting". DO NOT include explanatory text or prompts - just a simple title.
@@ -203,22 +201,7 @@ User Request: "${query}"`,
                     success: true,
                     message: `Done! Ticket #${updatedTicket.id} has been updated to "${updatedTicket.status}".`,
                     data: updatedTicket,
-                };
-            }
-
-            case "password_reset": {
-                return {
-                    action: "password_reset",
-                    success: true,
-                    message: `I've initiated the password reset process. Here's what to do next:
-
-1. Check your backup email for a verification code
-2. Visit https://password.example.com
-3. Enter your username and the verification code
-4. Create a new password (12+ characters, mix of letters, numbers, symbols)
-
-If you don't receive the email within 5 minutes, contact the helpdesk at 555-0199.`,
-                };
+                }
             }
 
             case "analyze_logs": {
